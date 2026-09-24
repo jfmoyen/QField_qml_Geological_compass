@@ -20,6 +20,7 @@ Like all [QField plugins](https://docs.qfield.org/how-to/advanced-how-tos/plugin
 <img src="img/qr-code.jpg" width="300" height="300">
 
 In any case, do not forget to activate the plugin (go to the side dashboard -> 3 dots menu -> plugins -> local plugins -> activate using the switch)
+
 <img src="img/plugin_menu.png" width="400" height="600">
 
 ## Setup and options
