@@ -1,0 +1,7 @@
+[general]
+name=Compass2
+description=Testing access to device compass
+author=J.-F. Moyen <jfmoyen@gmail.com>, modified from Mark Jessel
+icon=Compass_icon.svg
+version=1.3.0
+homepage=https://www.opengis.ch/
