@@ -1,6 +1,6 @@
 [general]
-name=Compass2
-description=Testing access to device compass
+name=Geological Compass
+description=Geological compass to record plane and line orientation
 author=J.-F. Moyen <jfmoyen@gmail.com>, modified from Mark Jessel
 icon=Compass_icon.svg
 version=1.3.0

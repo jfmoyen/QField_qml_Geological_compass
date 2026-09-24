@@ -31,7 +31,6 @@ import QtQuick.Controls
 import QtQuick.Shapes
 
 import QtSensors
-//import QtPositioning
 
 import org.qfield
 import org.qgis
@@ -62,9 +61,17 @@ Item {
   ListModel { id: pointLayerPickerModel }
   // target layer for save
   property int targetLayer: 0
+  property var currentlyActiveLayer: dashBoard.activeLayer
 
   property var declination: position.magneticVariation
 
+  Connections {
+    target: overlayFeatureFormDrawer
+
+    function onClosed() {
+      dashBoard.activeLayer = currentlyActiveLayer
+    }
+  }
 
   function populatePointLayerPicker(){
     // From https://github.com/TyHol/Qfield_Convert_Coords/blob/main/Conversion_tools/main.qml
@@ -134,7 +141,6 @@ Item {
     }
   }
 
-
   Item {
     id: smoothCompass
 
@@ -168,7 +174,6 @@ Item {
     }
 
   }
-
 
   Accelerometer {
     id: accelerometer
@@ -787,8 +792,6 @@ Item {
 
       onActivated:{
         root.targetLayer = currentIndex
-        //mainWindow.displayToast("Selected layer "+currentIndex)
-
       }
     }
 
@@ -832,30 +835,31 @@ Item {
 
   function tryAutoFill() {
 
+    // Select the layer on which we want to write
     // if the user wants to write to "active layer"
     if(root.targetLayer===0){
-      // check if we can do something with the active layer
-      dashBoard.ensureEditableLayerSelected()
+     // nothing special
+      }else{
+    // The user has selected something else
+    // Preserve this layer for restoration at the end
+      currentlyActiveLayer = dashBoard.activeLayer
 
-      // Check whether we are using a point geometry
-      if (dashBoard.activeLayer.geometryType() !== Qgis.GeometryType.Point) {
-        mainWindow.displayToast(qsTr('The active vector layer must be a point geometry'))
-        return
-      }
-
-    }else{
-      // The user has selected something else
-      // We did already ensure it is a point layer and it is editable
-      var currentLayer = dashBoard.activeLayer
-
+      // Get the target layer
       var item = pointLayerPickerModel.get(root.targetLayer)
       // if (item.isHeader) { currentIndex = currentIndex > 0 ? currentIndex - 1 : 0; return }
       //pointLayerName = (currentIndex === 0) ? "" : item.name
-
       var layer = qgisProject.mapLayersByName(item.name )[0]
       dashBoard.activeLayer = layer
     }
 
+    // check if we can do something with the active layer
+      dashBoard.ensureEditableLayerSelected()
+
+      // Check whether we are using a point geometry
+      if (dashBoard.activeLayer.geometryType() !== Qgis.GeometryType.Point) {
+        mainWindow.displayToast(qsTr('The target vector layer must be a point geometry'))
+        return
+      }
 
     // Create geometry
     //const pos = GeometryUtils.reprojectPoint(positionSource.projectedPosition, positionSource.coordinateTransformer.destinationCrs, dashBoard.activeLayer.crs);
@@ -955,22 +959,11 @@ Item {
 
     // Close the window, open the drawer
     mainDialog.close()
-
-    // Listen to a signal from drawer.open
-    // overlayFeatureFormDrawer.onOpened:
-    // {
-    //    dashBoard.activeLayer = currentLayer
-    // }
-
     overlayFeatureFormDrawer.open()
 
-    // Restore the originally selected layer, if needed
-    //if(pointLayerCombo.currentIndex!==0){
-    //  dashBoard.activeLayer = currentLayer
-    //}
+    // The Connection previsouly setup will ensure we restore the originally active layer
 
   } // end function
-
 
   QfToolButton {
     id: pluginButton
@@ -984,13 +977,12 @@ Item {
     }
   }
 
-
   // Persistent settings — edited via the ⚙ button in QField's plugin manager
   Settings {
     id: pluginSettings
-    category: "Compass2Plugin"
+    category: "geologicalCompassPlugin"
     property real magneticDeclination: -1.5
-    property bool southernHemisphere: true
+    property bool southernHemisphere: false
     property real smoothingAlpha: 0.05
     property real smoothingCompAlpha: 0.02
     property real interfaceScaling: 1.0
@@ -1006,7 +998,7 @@ Item {
     anchors.centerIn: parent
     visible: false
     modal: true
-    title: "Compass2 Plugin Settings"
+    title: "Geological Compass Plugin Settings"
     standardButtons: Dialog.Ok | Dialog.Cancel
 
     Column {
@@ -1122,6 +1114,7 @@ Item {
         }
         Switch {
           id: hemisphereSwitch
+          checked: false
         }
       }
 
@@ -1152,6 +1145,4 @@ Item {
 
 }
 
-// 
-// ExpressionContextUtils.setProjectVariable(qgisProject, 'key', 'value')
-// ExpressionContextUtils.setGlobalVariable('key', 'value') 
+
