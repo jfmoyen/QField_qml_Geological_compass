@@ -54,7 +54,7 @@ The compass reports the orientation relative to *Magnetic North*. However, this 
 
 ## Interface
 
-The interface is mostly made of a dialog, that shows (in real time) the device orientation. For convenience, this is depicted visually, with a wind rose that rotates to face North and a dip symbol (the conventional T-shaped bar) that follows the orientation. We add the possibility to "freeze" the compass, so that the user can for instance move the device to a more convenient place to read the nupers and, perhaps, add them to a field notebook.
+The interface is mostly made of a dialog, that shows (in real time) the device orientation. For convenience, this is depicted visually, with a wind rose that rotates to face North and a dip symbol (the conventional T-shaped bar) that follows the orientation. We add the possibility to "freeze" the compass, so that the user can for instance move the device to a more convenient place to read the numbers and, perhaps, add them to a field notebook.
 
 ## Saving data
 
@@ -304,7 +304,7 @@ Finally, we transfer the feature to the feature form, and let the form logic tak
 
 #### Juggling with layers
 
-The last bit is the logic to deselect/reselect the target layer. The issue here is has to do with the timing of events [(see details here)](https://community.qfield.org/t/restore-previously-selected-layer-after-closing-form/1937). So we must find a way to switch back to original layer *after* the interaction with the form drawer is completed. We do this with a Connection:
+The last bit is the logic to deselect/reselect the target layer. The issue here is has to do with the timing of events [(see details here)](https://community.qfield.org/t/restore-previously-selected-layer-after-closing-form/1937). So we must find a way to switch back to original layer *after* the interaction with the form drawer is completed. We do this by connecting the `onClosed()` signal of the form drawer to a function that switches the active layer:
 
 ```
   Connections {
