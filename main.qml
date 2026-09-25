@@ -329,7 +329,7 @@ Item {
 
     // The interface is drawn on the basis of a 320 * 550 window, and can be scaled as a whole
     property real scaleFactor: pluginSettings.interfaceScaling
-    property real topDataBlock: 40
+    property real topDataBlock: 40 * mainDialog.scaleFactor
 
     width: 320 * mainDialog.scaleFactor
     height: 550 * mainDialog.scaleFactor

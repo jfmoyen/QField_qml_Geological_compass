@@ -108,3 +108,7 @@ It is quite easy to add more options by editing the code (case sensitive !) of f
   property var plungeFieldNames:       ["plunge", "plongement", "L_plunge", "Plunge"]
   property var pitchFieldNames:        ["pitch","Pitch","L_pitch"]
 ```
+
+## How-to ?
+
+Read the [companion document](under_the_hood.md) if you are interested in the technicities - or explore the [code](main.qml) ! 
