@@ -111,4 +111,4 @@ It is quite easy to add more options by editing the code (case sensitive !) of f
 
 ## How-to ?
 
-Read the [companion document](under_the_hood.md) if you are interested in the technicities - or explore the [code](main.qml) ! 
+Read the [companion document](./Under_the_hood.md) if you are interested in the technicities - or explore the [code](main.qml) ! 
