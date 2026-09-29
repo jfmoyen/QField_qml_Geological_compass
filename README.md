@@ -1,4 +1,7 @@
 # QField_qml_Geological_compass
+> [!IMPORTANT] for time being the direct download link doesn't work, you need to install manually (copy to the plugin folder). Working on it.
+
+
 A QField plugin adding a geological compass app to record plane and line orientation
 
 QField is a portable version of QGIS. I am using it for geological mapping, using a suite of tools to tweak the functionalities to the specific needs of this activity:
